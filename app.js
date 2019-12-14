@@ -46,14 +46,6 @@ const List = mongoose.model("List", listSchema);
 
 
 
-// Item.insertMany(defaultItems, function(error, docs) {
-//     if (error) {
-//         console.log(error)
-//     } else {
-//         console.log("good job!")
-//     }
-// });
-
 
 app.get("/", function(req, res) {
 
@@ -112,7 +104,7 @@ app.post("/", function(req, res) {
     } else {
         List.findOne({ name: listName }, function(err, foundList) {
             foundList.items.push(item);
-            foundList.save();
+            foundList.save(); ///update foundList
             res.redirect("/" + listName);
 
         });
@@ -138,7 +130,7 @@ app.post("/delete", function(req, res) {
         List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: checkedItemId } } }, function(err, foundList) {
             if (!err) {
                 res.redirect("/" + listName);
-            }
+            } ///item array에 있는 item하나만 찾아서 지우는거니까 pull기능 찾아서 써야됨. findByIdAndRemove로는 해당 schema를 지우니까
         });
     }
 });
